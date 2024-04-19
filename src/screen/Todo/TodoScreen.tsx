@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const DashboardScreen = () => {
+const TodoScreen = () => {
   return (
     <View>
-      <Text>DashboardScreen</Text>
+      <Text>TodoScreen</Text>
     </View>
   )
 }
 
-export default DashboardScreen
+export default TodoScreen
 
 const styles = StyleSheet.create({})

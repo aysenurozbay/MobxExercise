@@ -5,7 +5,13 @@ export type AppParams = {
 
 export type DrawerStackParams = {
     Dashboard: any;
-    Posts: undefined;
-    PostDetail: any;
+    Post: undefined;
+    Todos: any;
     Albums: undefined;
+};
+
+
+export type PostParams = {
+    Posts: undefined;
+    PostDetails: undefined;
 };

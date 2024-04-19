@@ -1,23 +1,20 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { colors } from '../../utils/colors'
-import { radiusConsts, paddingConsts, textSize } from '../../utils/constValues'
+import { radiusConsts, paddingConsts, textSize, marginConsts } from '../../utils/constValues'
 import ArrowIcon from '../../assets/icons/ArrowIcon'
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
-import { DrawerStackParams } from '../../navigation/NavigationTypes'
+import { DrawerStackParams, PostParams } from '../../navigation/NavigationTypes'
 const PostComponent = () => {
-  const navigation: StackNavigationProp<DrawerStackParams> = useNavigation()
+  const navigation: StackNavigationProp<PostParams> = useNavigation()
 
   const seeMoreHandler = () => {
-    // navigation.navigate('PostDetail');
+    navigation.navigate('PostDetails')
   }
 
   return (
-    <View
-      style={{
-        flex: 1,
-      }}>
+    <View style={styles.container}>
       <Text style={styles.headerText}>Post Title</Text>
       <Text style={styles.postText}>
         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odit repudiandae corporis itaque quis a veniam mollitia non quam nisi ullam eveniet sapiente,
@@ -39,6 +36,7 @@ const styles = StyleSheet.create({
     borderRadius: radiusConsts.medium,
     borderColor: colors.border.primary,
     padding: paddingConsts.small,
+    marginVertical: marginConsts.small,
     justifyContent: 'space-between',
   },
   headerText: {

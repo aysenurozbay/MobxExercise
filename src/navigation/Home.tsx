@@ -11,6 +11,10 @@ import AlbumIcon from '../assets/icons/AlbumIcon'
 import Header from '../components/common/Header'
 import { DrawerStackParams } from './NavigationTypes'
 import PostDetailScreen from '../screen/Post/PostDetailScreen'
+import PostsScreen from '../screen/Post/PostsScreen'
+import Post from './Post'
+import TodoScreen from '../screen/Todo/TodoScreen'
+import AlbumScreen from '../screen/Album/AlbumScreen'
 
 const Drawer = createDrawerNavigator<DrawerStackParams>()
 
@@ -31,10 +35,9 @@ const Home = () => {
         },
       }}
       drawerContent={props => <CustomDrawer {...props} />}>
-      <Drawer.Screen name='Dashboard' component={DashboardScreen} options={{ drawerIcon: ({}) => <TasksIcon fill={colors.text.purple} size={30} /> }} />
-      <Drawer.Screen name='Posts' component={DashboardScreen} options={{ drawerIcon: ({}) => <PostsIcon fill={colors.text.purple} size={30} /> }} />
-      <Drawer.Screen name='PostDetail' component={PostDetailScreen} options={{ drawerIcon: ({}) => <AlbumIcon fill={colors.text.purple} size={30} /> }} />
-      <Drawer.Screen name='Albums' component={PostDetailScreen} options={{ drawerIcon: ({}) => <AlbumIcon fill={colors.text.purple} size={30} /> }} />
+      <Drawer.Screen name='Post' component={Post} options={{ drawerIcon: ({}) => <PostsIcon fill={colors.text.purple} size={30} /> }} />
+      <Drawer.Screen name='Todos' component={TodoScreen} options={{ drawerIcon: ({}) => <PostsIcon fill={colors.text.purple} size={30} /> }} />
+      <Drawer.Screen name='Albums' component={AlbumScreen} options={{ drawerIcon: ({}) => <PostsIcon fill={colors.text.purple} size={30} /> }} />
     </Drawer.Navigator>
   )
 }

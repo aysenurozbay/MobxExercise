@@ -8,14 +8,14 @@ import FilterIcon from '../../assets/icons/FilterIcon'
 const FilterComponent = () => {
   return (
     <View style={styles.container}>
-        <View style={styles.sortingContainer}>
-            <SortIcon size={20} fill={colors.border.active}/>
-            <Text style={styles.sortingText}>Sirala</Text>
-        </View>
-        <View style={styles.sortingContainer}>
-            <FilterIcon size={20} fill={colors.border.active}/>
-            <Text style={styles.sortingText}>Filtrele</Text>
-        </View>
+      <View style={styles.sortingContainer}>
+        <SortIcon size={20} fill={colors.border.active} />
+        <Text style={styles.sortingText}>Sirala</Text>
+      </View>
+      <View style={styles.sortingContainer}>
+        <FilterIcon size={20} fill={colors.border.active} />
+        <Text style={styles.sortingText}>Filtrele</Text>
+      </View>
     </View>
   )
 }
@@ -23,22 +23,21 @@ const FilterComponent = () => {
 export default FilterComponent
 
 const styles = StyleSheet.create({
-    container:{
-        borderColor: colors.border.secondary,
-        borderWidth: 2,
-        borderRadius: radiusConsts.medium,
-        padding: paddingConsts.small,
-        justifyContent:'space-around',
-        alignItems: 'center',
-        flexDirection: 'row',
-        marginBottom: marginConsts.medium
-    },
-    sortingContainer:{
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    sortingText:{
-        paddingHorizontal: paddingConsts.medium
-    }
-   
+  container: {
+    borderColor: colors.border.secondary,
+    borderWidth: 2,
+    borderRadius: radiusConsts.medium,
+    padding: paddingConsts.small,
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginBottom: marginConsts.medium,
+  },
+  sortingContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  sortingText: {
+    paddingHorizontal: paddingConsts.medium,
+  },
 })
