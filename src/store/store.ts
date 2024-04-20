@@ -1,45 +1,44 @@
 import { makeAutoObservable } from 'mobx'
-import { PostDataType } from '../utils/Types'
+import { PostDataType, UserDataType } from '../utils/Types'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-interface PostData {
-  post: PostDataType
+interface UserData {
+  user: UserDataType
   isLiked: boolean
 }
 
 class FavoriteStore {
-  posts: PostData[] = []
+  users: UserData[] = []
 
   constructor() {
     makeAutoObservable(this)
     this.loadFavorites()
   }
 
-  toggleFavorites(item: PostDataType) {
-    const index = this.posts.findIndex(post => post.post.id === item.id)
-    console.log(index)
+  toggleFavorites(item: UserDataType) {
+    const index = this.users.findIndex(user => user.user.id === item.id)
 
     if (index !== -1) {
-      this.posts[index].isLiked = !this.posts[index].isLiked
-      if (!this.posts[index].isLiked) {
-        this.posts.splice(index, 1)
+      this.users[index].isLiked = !this.users[index].isLiked
+      if (!this.users[index].isLiked) {
+        this.users.splice(index, 1)
       }
     } else {
       // Eğer post storeda yoksa, storeda ekleyerek beğenme durumunu true yap
-      const newPost: PostData = { post: item, isLiked: true }
-      this.posts.push(newPost)
+      const newPost: UserData = { user: item, isLiked: true }
+      this.users.push(newPost)
     }
     this.saveFavorites()
   }
 
   isPostLiked(postId: number) {
-    return this.posts.some(post => post.post.id === postId && post.isLiked)
+    return this.users.some(item => item.user.id === postId && item.isLiked)
   }
   private STORAGE_KEY = '@User:Favorites'
 
   async saveFavorites() {
     try {
-      const favoritesJSON = JSON.stringify(this.posts)
+      const favoritesJSON = JSON.stringify(this.users)
       await AsyncStorage.setItem(this.STORAGE_KEY, favoritesJSON)
       console.log('Favorites saved successfully')
     } catch (error) {
@@ -51,7 +50,7 @@ class FavoriteStore {
     try {
       const favoritesJSON = await AsyncStorage.getItem(this.STORAGE_KEY)
       if (favoritesJSON) {
-        this.posts = JSON.parse(favoritesJSON)
+        this.users = JSON.parse(favoritesJSON)
       }
       console.log('Favorites loaded successfully')
     } catch (error) {

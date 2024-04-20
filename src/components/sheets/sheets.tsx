@@ -8,8 +8,10 @@ declare module 'react-native-actions-sheet' {
   interface Sheets {
     'user-sheet': SheetDefinition<{
       payload: {
-        value: string
+        user: UserDataType
       }
     }>
   }
 }
+
+export {}

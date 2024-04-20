@@ -1,4 +1,4 @@
-import { Button, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Button, FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { API_URL, paddingConsts, textSize } from '../../utils/constValues'
 import { colors } from '../../utils/colors'
@@ -58,7 +58,6 @@ const PostDetailScreen = ({ route }: IPostDetailScreenProps) => {
           </TouchableOpacity>
           <Text style={styles.title}>{post.title} </Text>
         </View>
-        <LikeComponent post={post} />
       </View>
       <Text style={styles.post}>{post.body} </Text>
       <Text style={styles.commentLabel}>Comments </Text>
@@ -66,15 +65,11 @@ const PostDetailScreen = ({ route }: IPostDetailScreenProps) => {
       {loading ? (
         <Text>Loading...</Text>
       ) : (
-        <View>
-          {comments.map(comment => (
-            <CommentComponent key={comment.id} comment={comment} userId={post.userId} />
-          ))}
-          {/* <View style={{ flexDirection: 'row', marginTop: 10 }}>
-            <Button title='Previous Page' onPress={handlePrevPage} disabled={page === 1} />
-            <Button title='Next Page' onPress={handleNextPage} />
-          </View> */}
-        </View>
+        <FlatList
+          data={comments}
+          renderItem={({ item }) => <CommentComponent comment={item} userId={post.userId} />}
+          keyExtractor={item => item.id.toString()}
+        />
       )}
     </ScrollView>
   )

@@ -14,7 +14,7 @@ interface IUserCardProps {
 const UserCard = ({ user }: IUserCardProps) => {
   const handleDotIcon = () => {
     SheetManager.show('user-sheet', {
-      payload: { value: 'Hello World' },
+      payload: { user },
     })
   }
   return (

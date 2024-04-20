@@ -1,5 +1,7 @@
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import './components/sheets/sheets'
+
 import { NavigationContainer } from '@react-navigation/native'
 
 import Main from './navigation/Main'

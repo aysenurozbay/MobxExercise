@@ -2,20 +2,22 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import HeartIcon from '../../assets/icons/HeartIcon'
 import { colors } from '../../utils/colors'
-import { PostDataType } from '../../utils/Types'
+import { PostDataType, UserDataType } from '../../utils/Types'
 import favoriteStore from '../../store/store'
 import { observer } from 'mobx-react-lite'
+import { SheetManager } from 'react-native-actions-sheet'
 
 interface ILikeComponentProps {
-  post: PostDataType
+  user: UserDataType
 }
 
-const LikeComponent = ({ post }: ILikeComponentProps) => {
+const LikeComponent = ({ user }: ILikeComponentProps) => {
   const handleLike = () => {
-    favoriteStore.toggleFavorites(post)
+    favoriteStore.toggleFavorites(user)
+    SheetManager.hide('user-sheet')
   }
 
-  const isLiked = favoriteStore.isPostLiked(post.id)
+  const isLiked = favoriteStore.isPostLiked(user.id)
 
   return (
     <TouchableOpacity onPress={handleLike}>
