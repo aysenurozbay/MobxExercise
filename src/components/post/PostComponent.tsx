@@ -2,24 +2,26 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { colors } from '../../utils/colors'
 import { radiusConsts, paddingConsts, textSize, marginConsts } from '../../utils/constValues'
-import ArrowIcon from '../../assets/icons/ArrowIcon'
+import ArrowIcon from '../../assets/icons/BorderedArrowIcon'
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { DrawerStackParams, PostParams } from '../../navigation/NavigationTypes'
-const PostComponent = () => {
+import { PostDataType } from '../../utils/Types'
+
+interface IPostComponentProps {
+  post: PostDataType
+}
+const PostComponent = ({ post }: IPostComponentProps) => {
   const navigation: StackNavigationProp<PostParams> = useNavigation()
 
   const seeMoreHandler = () => {
-    navigation.navigate('PostDetails')
+    navigation.navigate('PostDetails', { post: post })
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headerText}>Post Title</Text>
-      <Text style={styles.postText}>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odit repudiandae corporis itaque quis a veniam mollitia non quam nisi ullam eveniet sapiente,
-        cum natus illo dolore voluptatibus, atque adipisci voluptatum.
-      </Text>
+      <Text style={styles.headerText}>{post.title}</Text>
+      <Text style={styles.postText}>{post.body}</Text>
       <TouchableOpacity activeOpacity={0.5} style={styles.buttonContainer} onPress={seeMoreHandler}>
         <Text style={styles.moreButton}>See More</Text>
         <ArrowIcon size={40} fill={colors.border.active} />

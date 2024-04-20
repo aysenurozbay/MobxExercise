@@ -45,3 +45,6 @@ export const headerStyles = StyleSheet.create({
         borderBottomWidth: StyleSheet.hairlineWidth,
     },
 });
+
+
+export const API_URL = "https://jsonplaceholder.typicode.com";

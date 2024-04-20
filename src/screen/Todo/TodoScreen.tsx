@@ -1,8 +1,9 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import TodoItemComponent from '../../components/todo/TodoItemComponent'
-import { paddingConsts } from '../../utils/constValues'
+import { API_URL, paddingConsts } from '../../utils/constValues'
 import FilterComponent from '../../components/common/FilterComponent'
+import axios from 'axios'
 
 const TodoScreen = () => {
   return (

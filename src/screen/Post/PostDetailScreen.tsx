@@ -1,21 +1,75 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import { paddingConsts, textSize } from '../../utils/constValues'
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { API_URL, paddingConsts, textSize } from '../../utils/constValues'
 import { colors } from '../../utils/colors'
 import CommentComponent from '../../components/comment/CommentComponent'
+import { CommentDataType, PostDataType } from '../../utils/Types'
+import axios from 'axios'
+import { PostParams } from '../../navigation/NavigationTypes'
+import { RouteProp, useNavigation } from '@react-navigation/native'
+import ArrowIcon from '../../assets/icons/ArrowIcon'
+import { StackNavigationProp } from '@react-navigation/stack'
 
-const PostDetailScreen = () => {
+interface IPostDetailScreenProps {
+  route: RouteProp<PostParams, 'PostDetails'>
+}
+
+const PostDetailScreen = ({ route }: IPostDetailScreenProps) => {
+  const { post } = route.params
+  const navigation: StackNavigationProp<PostParams> = useNavigation()
+
+  const [comments, setComments] = useState<CommentDataType[]>([])
+  const [page, setPage] = useState<number>(1)
+  const [loading, setLoading] = useState<boolean>(false)
+
+  const fetchComments = async () => {
+    setLoading(true)
+    try {
+      const response = await axios.get(`${API_URL}/posts/${post.id}/comments`, {
+        params: {
+          limit: 10, // Her istekte alınacak maksimum öğe sayısı
+          offset: (page - 1) * 10, // Sayfa başına öğe sayısı * sayfa numarası
+        },
+      })
+      setComments(response.data)
+    } catch (error) {
+      console.error('Error fetching posts:', error)
+    }
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    fetchComments()
+  }, [page])
+
+  const handleGoBackButton = () => {
+    navigation.goBack()
+  }
+
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.title}>Post Title </Text>
-      <Text style={styles.post}>
-        Body Union Health Minister Shri Mansukh Mandaviya reviews #COVID19 response in Kerala with Chief Minister Shri Pinarayi Vijayan and Health Minister of
-        Kerala, Ms. Veena George Body Union Health Minister Shri Mansukh Mandaviya reviews #COVID19 response in Kerala with Chief Minister Shri Pinarayi Vijayan
-        and Health Minister of Kerala, Ms. Veena George Body Union Health Minister Shri Mansukh Mandaviya reviews #COVID19 response in Kerala with Chief
-        Minister Shri Pinarayi Vijayan and Health Minister of Kerala, Ms. Veena George
-      </Text>
+      <View style={styles.titleContainer}>
+        <TouchableOpacity onPress={handleGoBackButton}>
+          <ArrowIcon size={15} fill={colors.border.active} />
+        </TouchableOpacity>
+        <Text style={styles.title}>{post.title} </Text>
+      </View>
+      <Text style={styles.post}>{post.body} </Text>
       <Text style={styles.commentLabel}>Comments </Text>
-      <CommentComponent />
+
+      {loading ? (
+        <Text>Loading...</Text>
+      ) : (
+        <View>
+          {comments.map(comment => (
+            <CommentComponent key={comment.id} comment={comment} userId={post.userId} />
+          ))}
+          {/* <View style={{ flexDirection: 'row', marginTop: 10 }}>
+            <Button title='Previous Page' onPress={handlePrevPage} disabled={page === 1} />
+            <Button title='Next Page' onPress={handleNextPage} />
+          </View> */}
+        </View>
+      )}
     </ScrollView>
   )
 }
@@ -27,10 +81,15 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: paddingConsts.large,
   },
+  titleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   title: {
     color: colors.text.primary,
     fontSize: textSize.medium,
     fontWeight: '600',
+    paddingHorizontal: paddingConsts.small,
   },
   post: {
     paddingVertical: paddingConsts.large,

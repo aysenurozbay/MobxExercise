@@ -1,17 +1,19 @@
+import { PostDataType } from '../utils/Types'
+
 export type AppParams = {
-    Login: undefined;
-    Main: undefined;
-};
+  Login: undefined
+  Main: undefined
+}
 
 export type DrawerStackParams = {
-    Dashboard: any;
-    Post: undefined;
-    Todos: any;
-    Albums: undefined;
-};
-
+  Dashboard: any
+  Post: undefined
+  Todos: any
+  Favorites: undefined
+  Users: undefined
+}
 
 export type PostParams = {
-    Posts: undefined;
-    PostDetails: undefined;
-};
+  Posts: undefined
+  PostDetails: { post: PostDataType }
+}

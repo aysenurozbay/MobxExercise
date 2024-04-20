@@ -1,18 +1,23 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { marginConsts, paddingConsts, radiusConsts, textSize } from '../../utils/constValues'
 import { colors } from '../../utils/colors'
 import UserIcon from '../../assets/icons/UserIcon'
+import { CommentDataType } from '../../utils/Types'
 
-const CommentComponent = () => {
+interface ICommentComponentProps {
+  comment: CommentDataType
+  userId: number
+}
+
+const CommentComponent = ({ comment, userId }: ICommentComponentProps) => {
   return (
     <View style={styles.container}>
       {/* UserIcon fill={colors.text.primary} size={50} /> */}
       <View>
-        <Text style={styles.username}>CommentComponent</Text>
+        <Text style={styles.username}>{comment.name}</Text>
         <Text style={styles.comment} numberOfLines={5}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus, similique neque velit beatae, labore ducimus aliquid nam eum dolor distinctio
-          sint in eveniet maxime quasi earum, recusandae dolore accusamus! Eligendi.
+          {comment.body}
         </Text>
       </View>
     </View>

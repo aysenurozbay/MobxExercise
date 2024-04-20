@@ -3,14 +3,17 @@ import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 
 import Main from './navigation/Main'
+import { SheetProvider } from 'react-native-actions-sheet'
 
 const App = () => {
   return (
-    <SafeAreaView style={styles.container}>
-      <NavigationContainer>
-        <Main />
-      </NavigationContainer>
-    </SafeAreaView>
+    <SheetProvider>
+      <SafeAreaView style={styles.container}>
+        <NavigationContainer>
+          <Main />
+        </NavigationContainer>
+      </SafeAreaView>
+    </SheetProvider>
   )
 }
 
