@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Button, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { API_URL, paddingConsts, textSize } from '../../utils/constValues'
 import { colors } from '../../utils/colors'
@@ -9,6 +9,9 @@ import { PostParams } from '../../navigation/NavigationTypes'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import ArrowIcon from '../../assets/icons/ArrowIcon'
 import { StackNavigationProp } from '@react-navigation/stack'
+import LikeComponent from '../../components/like/LikeComponent'
+import { observer } from 'mobx-react-lite'
+import favoriteStore from '../../store/store'
 
 interface IPostDetailScreenProps {
   route: RouteProp<PostParams, 'PostDetails'>
@@ -49,10 +52,13 @@ const PostDetailScreen = ({ route }: IPostDetailScreenProps) => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.titleContainer}>
-        <TouchableOpacity onPress={handleGoBackButton}>
-          <ArrowIcon size={15} fill={colors.border.active} />
-        </TouchableOpacity>
-        <Text style={styles.title}>{post.title} </Text>
+        <View style={styles.titleContainer}>
+          <TouchableOpacity onPress={handleGoBackButton}>
+            <ArrowIcon size={15} fill={colors.border.active} />
+          </TouchableOpacity>
+          <Text style={styles.title}>{post.title} </Text>
+        </View>
+        <LikeComponent post={post} />
       </View>
       <Text style={styles.post}>{post.body} </Text>
       <Text style={styles.commentLabel}>Comments </Text>
@@ -74,7 +80,7 @@ const PostDetailScreen = ({ route }: IPostDetailScreenProps) => {
   )
 }
 
-export default PostDetailScreen
+export default observer(PostDetailScreen)
 
 const styles = StyleSheet.create({
   container: {
@@ -84,6 +90,7 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
   title: {
     color: colors.text.primary,

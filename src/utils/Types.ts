@@ -4,6 +4,12 @@ export type PostDataType = {
   title: string
   body: string
 }
+export type TodoDataType = {
+  userId: number
+  id: number
+  title: string
+  completed: boolean
+}
 export type CommentDataType = {
   postId: number
   id: number
