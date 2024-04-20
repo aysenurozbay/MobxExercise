@@ -7,7 +7,7 @@ import UserIcon from '../../assets/icons/UserIcon'
 const CommentComponent = () => {
   return (
     <View style={styles.container}>
-      {/* <UserIcon fill={colors.text.primary} size={50} /> */}
+      {/* UserIcon fill={colors.text.primary} size={50} /> */}
       <View>
         <Text style={styles.username}>CommentComponent</Text>
         <Text style={styles.comment} numberOfLines={5}>
