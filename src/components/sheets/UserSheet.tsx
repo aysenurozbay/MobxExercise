@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React, { useRef } from 'react'
-import ActionSheet, { ActionSheetRef, SheetProps } from 'react-native-actions-sheet'
+import ActionSheet, { ActionSheetRef, SheetProps, useSheetRef } from 'react-native-actions-sheet'
 import { paddingConsts, textSize } from '../../utils/constValues'
 import LocationIcon from '../../assets/icons/LocationIcon'
 import { colors } from '../../utils/colors'
@@ -10,8 +10,10 @@ import LikeComponent from '../like/LikeComponent'
 
 const UserSheet = ({ payload, sheetId }: SheetProps<'user-sheet'>) => {
   const user = payload?.user
+  const actionSheetRef = useRef<ActionSheetRef>(null)
+
   return (
-    <ActionSheet id={sheetId} containerStyle={styles.container} indicatorStyle={styles.indicatorStyle}>
+    <ActionSheet id={sheetId} containerStyle={styles.container} indicatorStyle={styles.indicatorStyle} ref={actionSheetRef}>
       {user && (
         <>
           <View style={styles.headerContainer}>

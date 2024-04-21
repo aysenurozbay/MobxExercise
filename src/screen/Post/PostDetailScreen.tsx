@@ -49,13 +49,20 @@ const PostDetailScreen = ({ route }: IPostDetailScreenProps) => {
     navigation.goBack()
   }
 
+  useEffect(() => {
+    navigation.getParent()?.setOptions({
+      headerShown: false,
+    })
+    return () =>
+      navigation.getParent()?.setOptions({
+        headerShown: true,
+      })
+  }, [navigation])
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.titleContainer}>
         <View style={styles.titleContainer}>
-          <TouchableOpacity onPress={handleGoBackButton}>
-            <ArrowIcon size={15} fill={colors.border.active} />
-          </TouchableOpacity>
           <Text style={styles.title}>{post.title} </Text>
         </View>
       </View>
@@ -91,7 +98,6 @@ const styles = StyleSheet.create({
     color: colors.text.primary,
     fontSize: textSize.medium,
     fontWeight: '600',
-    paddingHorizontal: paddingConsts.small,
   },
   post: {
     paddingVertical: paddingConsts.large,

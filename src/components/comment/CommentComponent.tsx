@@ -29,7 +29,7 @@ export default CommentComponent
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    marginVertical: marginConsts.xLarge,
+    marginVertical: marginConsts.tiny,
     padding: paddingConsts.small,
     borderWidth: 1,
     borderColor: colors.border.primary,

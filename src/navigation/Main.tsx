@@ -32,12 +32,12 @@ const Main = () => {
         },
       }}
       drawerContent={props => <CustomDrawer {...props} />}>
+      <Drawer.Screen name='Post' component={Post} options={{ drawerIcon: ({}) => <PostsIcon fill={colors.text.purple} size={30} />, title: 'Gonderiler' }} />
       <Drawer.Screen
         name='Users'
         component={UsersScreen}
         options={{ drawerIcon: ({}) => <PostsIcon fill={colors.text.purple} size={30} />, title: 'Kullanicilar' }}
       />
-      <Drawer.Screen name='Post' component={Post} options={{ drawerIcon: ({}) => <PostsIcon fill={colors.text.purple} size={30} />, title: 'Gonderiler' }} />
       <Drawer.Screen
         name='Todos'
         component={TodoScreen}

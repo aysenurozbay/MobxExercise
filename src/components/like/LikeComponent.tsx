@@ -5,7 +5,7 @@ import { colors } from '../../utils/colors'
 import { PostDataType, UserDataType } from '../../utils/Types'
 import favoriteStore from '../../store/store'
 import { observer } from 'mobx-react-lite'
-import { SheetManager } from 'react-native-actions-sheet'
+import { SheetManager, useSheetRef } from 'react-native-actions-sheet'
 
 interface ILikeComponentProps {
   user: UserDataType
@@ -14,7 +14,9 @@ interface ILikeComponentProps {
 const LikeComponent = ({ user }: ILikeComponentProps) => {
   const handleLike = () => {
     favoriteStore.toggleFavorites(user)
-    SheetManager.hide('user-sheet')
+    setTimeout(() => {
+      SheetManager.hide('user-sheet')
+    }, 100)
   }
 
   const isLiked = favoriteStore.isPostLiked(user.id)
