@@ -5,19 +5,15 @@ import Header from './Header'
 import { metrics } from '../../utils/metrics'
 import { marginConsts, paddingConsts } from '../../utils/constValues'
 
-
-
-const CustomDrawer = (props:DrawerContentComponentProps) => {  
+const CustomDrawer = (props: DrawerContentComponentProps) => {
   return (
     <View style={styles.container}>
-      <Header/> 
+      <Header />
       <View style={styles.drawerContainer}>
-          <DrawerItemList {...props}/>
+        <View>
+          <DrawerItemList {...props} />
+        </View>
       </View>
-      <Text style={styles.footer}> 
-        2023 All Right Reserved ...
-      </Text>
-
     </View>
   )
 }
@@ -26,14 +22,9 @@ export default CustomDrawer
 
 const styles = StyleSheet.create({
   container: {
-height: metrics.screenHeight
+    height: metrics.screenHeight,
   },
-  drawerContainer:{
-    paddingVertical: paddingConsts.huge
+  drawerContainer: {
+    paddingVertical: paddingConsts.huge,
   },
-  footer:{
-    position: 'absolute',
-    bottom: 100,
-    paddingHorizontal: paddingConsts.medium
-  }
 })

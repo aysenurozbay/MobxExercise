@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import HeartIcon from '../../assets/icons/HeartIcon'
 import { colors } from '../../utils/colors'
 import { PostDataType, UserDataType } from '../../utils/Types'
-import favoriteStore from '../../store/store'
+import favoriteStore from '../../store/favoriteStore'
 import { observer } from 'mobx-react-lite'
 import { SheetManager, useSheetRef } from 'react-native-actions-sheet'
 

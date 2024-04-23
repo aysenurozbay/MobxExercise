@@ -28,7 +28,7 @@ const TodoItemComponent = ({ todo }: ITodoItemComponentProps) => {
         }}
         isChecked={checkboxState}
         onPress={(isChecked: boolean) => {
-          console.log(isChecked)
+          // console.log(isChecked)
         }}
       />
     </View>

@@ -7,8 +7,9 @@ import { colors } from '../../utils/colors'
 import { radiusConsts, paddingConsts, textSize } from '../../utils/constValues'
 import ArrowIcon from '../../assets/icons/ArrowIcon'
 import DotsIcon from '../../assets/icons/DotsIcon'
+import { StackHeaderProps } from '@react-navigation/stack'
 
-interface PostScreenHeader extends DrawerHeaderProps {}
+interface PostScreenHeader extends StackHeaderProps {}
 
 const PostScreenHeader = (props: PostScreenHeader) => {
   const handleGoBack = () => {

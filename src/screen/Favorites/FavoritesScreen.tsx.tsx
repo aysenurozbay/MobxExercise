@@ -1,6 +1,6 @@
-import { Button, FlatList, StyleSheet, Text, View } from 'react-native'
+import { Button, FlatList, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import favoriteStore from '../../store/store'
+import favoriteStore from '../../store/favoriteStore'
 import { observer } from 'mobx-react-lite'
 import { paddingConsts, textSize } from '../../utils/constValues'
 import PostComponent from '../../components/post/PostComponent'
@@ -14,13 +14,11 @@ const FavoritesScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Favorilerim</Text>
-
-      <FlatList
-        data={favoriteStore.users}
-        renderItem={({ item }) => <UserCard user={item.user} />}
-        keyExtractor={item => item.user.id.toString()}
-        ListEmptyComponent={<Text style={styles.listEmptyText}>Henuz favorilenen bir kullanici yok!</Text>}
-      />
+      <ScrollView>
+        {favoriteStore.users.map(item => (
+          <UserCard user={item.user} key={item.user.id} />
+        ))}
+      </ScrollView>
     </View>
   )
 }

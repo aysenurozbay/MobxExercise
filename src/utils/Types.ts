@@ -1,6 +1,9 @@
-export type PostDataType = {
-  userId: number
+export type DataItem = {
   id: number
+}
+
+export interface PostDataType extends DataItem {
+  userId: number
   title: string
   body: string
 }
@@ -18,8 +21,7 @@ export type CommentDataType = {
   body: string
 }
 
-export type UserDataType = {
-  id: number
+export interface UserDataType extends DataItem {
   name: string
   email: string
   username: string
@@ -28,7 +30,7 @@ export type UserDataType = {
     city: string
     street: string
     zipcode: string
-    geo: {
+    geo?: {
       lat: string
       lng: string
     }

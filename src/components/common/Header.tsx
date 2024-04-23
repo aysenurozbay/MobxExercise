@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 
 import { DrawerHeaderProps } from '@react-navigation/drawer'
@@ -12,6 +12,7 @@ import { colors } from '../../utils/colors'
 interface IHeaderTitle extends DrawerHeaderProps {}
 
 const Header = (props: IHeaderTitle) => {
+  const { navigation } = props
   // const [textInputValue, setTextInputValue] = useState('')
 
   const openDrawer = () => {

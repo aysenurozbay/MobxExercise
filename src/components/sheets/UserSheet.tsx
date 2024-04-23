@@ -7,8 +7,9 @@ import { colors } from '../../utils/colors'
 import CompanyIcon from '../../assets/icons/CompanyIcon'
 import WorldIcon from '../../assets/icons/WorldIcon'
 import LikeComponent from '../like/LikeComponent'
+import { SheetTypes } from './sheets'
 
-const UserSheet = ({ payload, sheetId }: SheetProps<'user-sheet'>) => {
+const UserSheet = ({ payload, sheetId }: SheetProps<SheetTypes.UserSheet>) => {
   const user = payload?.user
   const actionSheetRef = useRef<ActionSheetRef>(null)
 

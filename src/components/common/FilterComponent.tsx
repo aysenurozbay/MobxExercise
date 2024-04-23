@@ -1,21 +1,26 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { colors } from '../../utils/colors'
 import { marginConsts, paddingConsts, radiusConsts } from '../../utils/constValues'
 import SortIcon from '../../assets/icons/SortIcon'
 import FilterIcon from '../../assets/icons/FilterIcon'
 
-const FilterComponent = () => {
+interface IFilterComponentProps {
+  filterOnPress: () => void
+  sortOnPress: () => void
+}
+
+const FilterComponent = ({ filterOnPress, sortOnPress }: IFilterComponentProps) => {
   return (
     <View style={styles.container}>
-      <View style={styles.sortingContainer}>
+      <Pressable style={styles.sortingContainer} onPress={sortOnPress}>
         <SortIcon size={20} fill={colors.border.active} />
         <Text style={styles.sortingText}>Sirala</Text>
-      </View>
-      <View style={styles.sortingContainer}>
+      </Pressable>
+      <Pressable style={styles.sortingContainer} onPress={filterOnPress}>
         <FilterIcon size={20} fill={colors.border.active} />
         <Text style={styles.sortingText}>Filtrele</Text>
-      </View>
+      </Pressable>
     </View>
   )
 }

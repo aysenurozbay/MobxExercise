@@ -11,10 +11,24 @@ import ArrowIcon from '../../assets/icons/ArrowIcon'
 import { StackNavigationProp } from '@react-navigation/stack'
 import LikeComponent from '../../components/like/LikeComponent'
 import { observer } from 'mobx-react-lite'
-import favoriteStore from '../../store/store'
+import favoriteStore from '../../store/favoriteStore'
 
 interface IPostDetailScreenProps {
   route: RouteProp<PostParams, 'PostDetails'>
+}
+
+const headerComponent = (post: PostDataType) => {
+  return (
+    <View>
+      <View style={styles.titleContainer}>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>{post.title} </Text>
+        </View>
+      </View>
+      <Text style={styles.post}>{post.body} </Text>
+      <Text style={styles.commentLabel}>Comments </Text>
+    </View>
+  )
 }
 
 const PostDetailScreen = ({ route }: IPostDetailScreenProps) => {
@@ -45,10 +59,6 @@ const PostDetailScreen = ({ route }: IPostDetailScreenProps) => {
     fetchComments()
   }, [page])
 
-  const handleGoBackButton = () => {
-    navigation.goBack()
-  }
-
   useEffect(() => {
     navigation.getParent()?.setOptions({
       headerShown: false,
@@ -60,15 +70,7 @@ const PostDetailScreen = ({ route }: IPostDetailScreenProps) => {
   }, [navigation])
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.titleContainer}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>{post.title} </Text>
-        </View>
-      </View>
-      <Text style={styles.post}>{post.body} </Text>
-      <Text style={styles.commentLabel}>Comments </Text>
-
+    <View style={styles.container}>
       {loading ? (
         <Text>Loading...</Text>
       ) : (
@@ -76,9 +78,11 @@ const PostDetailScreen = ({ route }: IPostDetailScreenProps) => {
           data={comments}
           renderItem={({ item }) => <CommentComponent comment={item} userId={post.userId} />}
           keyExtractor={item => item.id.toString()}
+          ListHeaderComponent={headerComponent(post)}
+          showsVerticalScrollIndicator={false}
         />
       )}
-    </ScrollView>
+    </View>
   )
 }
 

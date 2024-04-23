@@ -1,71 +1,87 @@
-import { Button, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
+import { observer } from 'mobx-react-lite'
+import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native'
 import PostComponent from '../../components/post/PostComponent'
-import { API_URL, paddingConsts } from '../../utils/constValues'
 import FilterComponent from '../../components/common/FilterComponent'
-import axios from 'axios'
-import { PostDataType } from '../../utils/Types'
+import { SearchTitles, paddingConsts } from '../../utils/constValues'
+import { SheetManager } from 'react-native-actions-sheet'
+import { SheetTypes } from '../../components/sheets/sheets'
+import { PostParams } from '../../navigation/NavigationTypes'
+import { RouteProp, useNavigation } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { colors } from '../../utils/colors'
+import { commonStyles } from '../../assets/commonStyles'
+import postStore from '../../store/postStore'
+import Loading from '../../components/common/Loading'
 
-const PostsScreen = () => {
-  const [posts, setPosts] = useState<PostDataType[]>([])
-  const [page, setPage] = useState<number>(1)
-  const [loading, setLoading] = useState<boolean>(false)
+interface IPostsScreenProps {}
 
-  const fetchPosts = async () => {
-    setLoading(true)
-    try {
-      const response = await axios.get(`${API_URL}/posts`, {
-        params: {
-          limit: 10, // Her istekte alınacak maksimum öğe sayısı
-          offset: (page - 1) * 10, // Sayfa başına öğe sayısı * sayfa numarası
-        },
-      })
-      setPosts(response.data)
-    } catch (error) {
-      console.error('Error fetching posts:', error)
-    }
-    setLoading(false)
-  }
+const PostsScreen = observer(({}: IPostsScreenProps) => {
+  const navigation: StackNavigationProp<PostParams> = useNavigation()
+  const [searchTerm, setSearchTerm] = useState('')
 
   useEffect(() => {
-    fetchPosts()
-  }, [page])
+    postStore.fetchPosts()
+  }, [])
 
-  const handlePrevPage = () => {
-    if (page > 1) {
-      setPage(prevPage => prevPage - 1)
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => <TextInput placeholder={SearchTitles.POST} onChangeText={handleSearch} value={searchTerm} style={commonStyles.input} />,
+    })
+  }, [navigation, searchTerm])
+
+  const filterOnPress = async () => {
+    const sheetPayload: string = await SheetManager.show(SheetTypes.FilterSheet, {
+      payload: {
+        type: 'post',
+      },
+    })
+
+    const filterTypesLookup: Record<string, () => void> = {
+      title: () => postStore.filterByUser(Number(sheetPayload)),
+      reset: () => postStore.resetFilter(),
     }
+
+    if (!filterTypesLookup[sheetPayload]) {
+      return
+    }
+
+    filterTypesLookup[sheetPayload]()
   }
 
-  const handleNextPage = () => {
-    setPage(prevPage => prevPage + 1)
+  const sortOnPress = async () => {
+    const sheetPayload = await SheetManager.show(SheetTypes.SortSheet)
+    postStore.sortById(sheetPayload)
+  }
+
+  const data = postStore.activeFilter !== 'none' ? postStore.filteredPosts : postStore.posts
+
+  const handleSearch = (text: string) => {
+    setSearchTerm(text)
+    postStore.setSearchTerm(text)
+    postStore.searchByTitle
   }
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <FilterComponent />
-      {loading ? (
-        <Text>Loading...</Text>
-      ) : (
+    <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+      <FilterComponent filterOnPress={filterOnPress} sortOnPress={sortOnPress} />
+      {postStore.state === 'pending' && <Loading />}
+      {postStore.state === 'done' && (
         <View>
-          {posts.map(post => (
+          {data?.map(post => (
             <PostComponent post={post} key={post.id} />
           ))}
-          {/* <View style={{ flexDirection: 'row', marginTop: 10 }}>
-            <Button title='Previous Page' onPress={handlePrevPage} disabled={page === 1} />
-            <Button title='Next Page' onPress={handleNextPage} />
-          </View> */}
         </View>
       )}
+      {postStore.state === 'error' && <Text>Error occurred while fetching data</Text>}
     </ScrollView>
   )
-}
+})
 
 export default PostsScreen
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     padding: paddingConsts.large,
   },
 })

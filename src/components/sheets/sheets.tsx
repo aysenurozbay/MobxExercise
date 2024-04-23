@@ -1,17 +1,23 @@
 import { SheetDefinition, registerSheet } from 'react-native-actions-sheet'
 import UserSheet from './UserSheet'
-import { UserDataType } from '../../utils/Types'
+import FilterSheet from './FilterSheet'
+import SortSheet from './SortSheet'
+import type { FilterSheetDefinitionType, SortSheetDefinitionType, UserSheetDefinitionType } from './sheetstypes'
 
-registerSheet('user-sheet', UserSheet)
+export enum SheetTypes {
+  UserSheet = 'user-sheet',
+  SortSheet = 'sort-sheet',
+  FilterSheet = 'filter-sheet',
+}
+
+registerSheet(SheetTypes.UserSheet, UserSheet)
+registerSheet(SheetTypes.SortSheet, SortSheet)
+registerSheet(SheetTypes.FilterSheet, FilterSheet)
 
 declare module 'react-native-actions-sheet' {
   interface Sheets {
-    'user-sheet': SheetDefinition<{
-      payload: {
-        user: UserDataType
-      }
-    }>
+    [SheetTypes.UserSheet]: SheetDefinition<UserSheetDefinitionType>
+    [SheetTypes.SortSheet]: SheetDefinition<SortSheetDefinitionType>
+    [SheetTypes.FilterSheet]: SheetDefinition<FilterSheetDefinitionType>
   }
 }
-
-export {}
