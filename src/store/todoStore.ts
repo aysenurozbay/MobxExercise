@@ -52,6 +52,21 @@ class Store {
     this.activeFilter = 'bystate'
     this.state = 'done'
   }
+
+  filterWithState = (isCompleted: boolean) => {
+    console.log(`isCompleted`, isCompleted)
+
+    this.state = 'pending'
+    if (this.activeFilter === 'none') {
+      const _filteredTodos: TodoDataType[] = [...this.todos].filter((todo: TodoDataType) => todo.completed === isCompleted)
+      this.filteredTodos = _filteredTodos
+    } else {
+      const _filteredTodos: TodoDataType[] = [...this.filteredTodos].filter((todo: TodoDataType) => todo.completed === isCompleted)
+      this.filteredTodos = _filteredTodos
+    }
+    this.activeFilter = 'bystate'
+    this.state = 'done'
+  }
   filterByUserId = (id: number) => {
     console.log(this)
 

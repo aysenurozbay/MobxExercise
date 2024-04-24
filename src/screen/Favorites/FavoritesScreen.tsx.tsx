@@ -13,7 +13,6 @@ const FavoritesScreen = () => {
   // }
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Favorilerim</Text>
       <ScrollView>
         {favoriteStore.users.map(item => (
           <UserCard user={item.user} key={item.user.id} />

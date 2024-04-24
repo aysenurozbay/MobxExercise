@@ -7,6 +7,8 @@ import { NavigationContainer } from '@react-navigation/native'
 import Main from './navigation/Main'
 import { SheetProvider } from 'react-native-actions-sheet'
 
+LogBox.ignoreAllLogs()
+
 const App = () => {
   return (
     <SheetProvider>

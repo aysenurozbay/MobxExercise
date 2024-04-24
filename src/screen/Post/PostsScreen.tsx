@@ -24,29 +24,29 @@ const PostsScreen = observer(({}: IPostsScreenProps) => {
     postStore.fetchPosts()
   }, [])
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: () => <TextInput placeholder={SearchTitles.POST} onChangeText={handleSearch} value={searchTerm} style={commonStyles.input} />,
-    })
-  }, [navigation, searchTerm])
-
   const filterOnPress = async () => {
-    const sheetPayload: string = await SheetManager.show(SheetTypes.FilterSheet, {
+    const sheetPayload: { type: string; value?: string | number } = await SheetManager.show(SheetTypes.FilterSheet, {
       payload: {
         type: 'post',
       },
     })
 
+    const { value, type } = sheetPayload
+
     const filterTypesLookup: Record<string, () => void> = {
-      title: () => postStore.filterByUser(Number(sheetPayload)),
+      user: () => {
+        if (value) {
+          postStore.filterByUser(Number(value))
+        }
+      },
       reset: () => postStore.resetFilter(),
     }
 
-    if (!filterTypesLookup[sheetPayload]) {
+    if (!filterTypesLookup[type]) {
       return
     }
 
-    filterTypesLookup[sheetPayload]()
+    filterTypesLookup[type]()
   }
 
   const sortOnPress = async () => {
@@ -55,12 +55,6 @@ const PostsScreen = observer(({}: IPostsScreenProps) => {
   }
 
   const data = postStore.activeFilter !== 'none' ? postStore.filteredPosts : postStore.posts
-
-  const handleSearch = (text: string) => {
-    setSearchTerm(text)
-    postStore.setSearchTerm(text)
-    postStore.searchByTitle
-  }
 
   return (
     <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>

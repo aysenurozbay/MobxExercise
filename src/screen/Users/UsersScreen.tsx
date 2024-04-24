@@ -26,22 +26,28 @@ const UsersScreen = observer(({}: IUsersScreennProps) => {
   }, [])
 
   const filterOnPress = async () => {
-    const sheetPayload: string = await SheetManager.show(SheetTypes.FilterSheet, {
+    const sheetPayload: { type: string; value?: string } = await SheetManager.show(SheetTypes.FilterSheet, {
       payload: {
-        type: 'post',
+        type: 'user',
       },
     })
 
+    const { value, type } = sheetPayload
+
     const filterTypesLookup: Record<string, () => void> = {
-      name: () => userStore.filterByCompany(sheetPayload),
+      company: () => {
+        if (value) {
+          userStore.filterByCompany(value)
+        }
+      },
       reset: () => userStore.resetFilter(),
     }
 
-    if (!filterTypesLookup[sheetPayload]) {
+    if (!filterTypesLookup[type]) {
       return
     }
 
-    filterTypesLookup[sheetPayload]()
+    filterTypesLookup[type]()
   }
 
   const sortOnPress = async () => {

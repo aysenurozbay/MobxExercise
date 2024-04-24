@@ -1,27 +1,56 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Pressable, TextInput } from 'react-native'
+import { createDrawerNavigator } from '@react-navigation/drawer'
 
-import { AppParams, DrawerStackParams } from './NavigationTypes'
-import { DrawerContentComponentProps, createDrawerNavigator } from '@react-navigation/drawer'
 import PostsIcon from '../assets/icons/PostsIcon'
 import CustomDrawer from '../components/drawer/CustomDrawer'
 import FavoritesScreen from '../screen/Favorites/FavoritesScreen.tsx'
 import TodoScreen from '../screen/Todo/TodoScreen'
 import UsersScreen from '../screen/Users/UsersScreen'
+
+import Post from './Post.tsx'
+
 import { colors } from '../utils/colors'
-import { marginConsts, paddingConsts } from '../utils/constValues'
+import { DEFAULT_SEARCH_TITLE, SearchTitles, SearchTitlesType, marginConsts, paddingConsts } from '../utils/constValues'
 import { metrics } from '../utils/metrics'
-import Post from './Post'
-import Header from '../components/common/Header'
-import { Pressable, Text } from 'react-native'
+
 import UserIcon from '../assets/icons/UserIcon.tsx'
 import DrawerIcon from '../assets/icons/DrawerIcon.tsx'
 import TasksIcon from '../assets/icons/TasksIcon.tsx'
 import HeartIcon from '../assets/icons/HeartIcon.tsx'
-import PostsScreen from '../screen/Post/PostsScreen.tsx'
+import { commonStyles } from '../assets/commonStyles.ts'
 
-const Drawer = createDrawerNavigator<DrawerStackParams>()
+import todoStore from '../store/todoStore.ts'
+import postStore from '../store/postStore.ts'
+import userStore from '../store/userStore.ts'
+
+const Drawer = createDrawerNavigator()
 
 const Main = () => {
+  const [searchTerm, setSearchTerm] = useState('')
+
+  const handleSearch = (text: string, type: keyof SearchTitlesType) => {
+    setSearchTerm(text)
+    searchLookUp[type](text)
+  }
+  const searchLookUp: Record<keyof SearchTitlesType, (value: string) => void> = {
+    ['TODO']: value => {
+      setSearchTerm(value)
+      todoStore.setSearchTerm(value)
+      todoStore.searchByTitle
+    },
+    ['POST']: value => {
+      setSearchTerm(value)
+      postStore.setSearchTerm(value)
+      postStore.searchByTitle
+    },
+    ['USER']: value => {
+      setSearchTerm(value)
+      userStore.setSearchTerm(value)
+      userStore.searchByName
+    },
+  }
+
   return (
     <Drawer.Navigator
       screenOptions={({ navigation }) => ({
@@ -50,20 +79,52 @@ const Main = () => {
       drawerContent={props => <CustomDrawer {...props} />}>
       <Drawer.Screen
         name='Post'
-        component={PostsScreen}
-        options={{ drawerIcon: ({}) => <PostsIcon fill={colors.text.purple} size={30} />, title: 'Gonderiler' }}
+        component={Post}
+        options={{
+          drawerIcon: ({}) => <PostsIcon fill={colors.text.purple} size={30} />,
+          title: 'Gonderiler',
+          headerTitle: prop => (
+            <TextInput
+              placeholder={SearchTitles['POST'] || DEFAULT_SEARCH_TITLE}
+              onChangeText={text => handleSearch(text, 'POST')}
+              value={searchTerm}
+              style={commonStyles.input}
+            />
+          ),
+        }}
       />
       <Drawer.Screen
         name='Todos'
         component={TodoScreen}
-        options={{ drawerIcon: ({}) => <TasksIcon fill={colors.text.purple} size={30} />, title: 'Gorevler' }}
+        options={{
+          drawerIcon: ({}) => <TasksIcon fill={colors.text.purple} size={30} />,
+          title: 'Gorevler',
+          headerTitle: prop => (
+            <TextInput
+              placeholder={SearchTitles['TODO'] || DEFAULT_SEARCH_TITLE}
+              onChangeText={text => handleSearch(text, 'TODO')}
+              value={searchTerm}
+              style={commonStyles.input}
+            />
+          ),
+        }}
       />
       <Drawer.Screen
         name='Users'
         component={UsersScreen}
-        options={{ drawerIcon: ({}) => <UserIcon fill={colors.text.purple} size={30} />, title: 'Kullanicilar' }}
+        options={{
+          drawerIcon: ({}) => <UserIcon fill={colors.text.purple} size={30} />,
+          title: 'Kullanicilar',
+          headerTitle: prop => (
+            <TextInput
+              placeholder={SearchTitles['TODO'] || DEFAULT_SEARCH_TITLE}
+              onChangeText={text => handleSearch(text, 'TODO')}
+              value={searchTerm}
+              style={commonStyles.input}
+            />
+          ),
+        }}
       />
-
       <Drawer.Screen
         name='Favorites'
         component={FavoritesScreen}

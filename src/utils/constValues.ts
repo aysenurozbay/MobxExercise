@@ -51,10 +51,18 @@ export const storeStates = {
   DONE: 'done',
   ERROR: 'error',
 }
-export const SearchTitles = {
+
+export interface SearchTitlesType {
+  TODO: string
+  POST: string
+  USER: string
+}
+
+export const SearchTitles: SearchTitlesType = {
   TODO: 'Gorev Ara',
   POST: 'Gonderi Ara',
   USER: 'Kullanici Ara',
 }
 
 export const API_URL = 'https://jsonplaceholder.typicode.com'
+export const DEFAULT_SEARCH_TITLE = 'Ara ...'

@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native'
 import { colors } from '../utils/colors'
-import { radiusConsts } from '../utils/constValues'
+import { paddingConsts, radiusConsts, textSize } from '../utils/constValues'
 import { metrics } from '../utils/metrics'
 
 export const commonStyles = StyleSheet.create({
@@ -25,5 +25,17 @@ export const commonStyles = StyleSheet.create({
     borderRadius: radiusConsts.medium,
     borderColor: colors.border.primary,
     backgroundColor: colors.background.secondary,
+  },
+  sheetTitle: {
+    paddingVertical: paddingConsts.medium,
+    fontSize: textSize.large,
+    fontWeight: '500',
+    color: colors.text.purple,
+    textAlign: 'center',
+    borderBottomColor: `red`,
+  },
+  resetFilterText: {
+    alignSelf: 'flex-end',
+    paddingVertical: paddingConsts.small,
   },
 })

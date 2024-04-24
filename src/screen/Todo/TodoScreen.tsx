@@ -28,24 +28,24 @@ const TodoScreen = observer(({}: ITodoScreenProps) => {
   }, [])
 
   const filterOnPress = async () => {
-    const sheetPayload: 'completed' | 'notcompleted' | number = await SheetManager.show(SheetTypes.FilterSheet, {
+    const sheetPayload: { type: string; value?: string | number } = await SheetManager.show(SheetTypes.FilterSheet, {
       payload: {
         type: 'todo',
       },
     })
+    const { value, type } = sheetPayload
 
     const filterTypesLookup: Record<string, () => void> = {
-      completed: () => todoStore.filterByState(true),
+      completed: () => todoStore.filterWithState(true),
       notcompleted: () => todoStore.filterByState(false),
-      userId: () => todoStore.filterByUserId(Number(sheetPayload)),
       reset: () => todoStore.resetFilter(),
     }
 
-    if (!filterTypesLookup[sheetPayload]) {
+    if (!filterTypesLookup[type]) {
       return
     }
 
-    filterTypesLookup[sheetPayload]()
+    filterTypesLookup[type]()
   }
 
   const sortOnPress = async () => {
@@ -54,18 +54,6 @@ const TodoScreen = observer(({}: ITodoScreenProps) => {
   }
 
   const data = todoStore.activeFilter !== 'none' ? todoStore.filteredTodos : todoStore.todos
-
-  const handleSearch = (text: string) => {
-    setSearchTerm(text)
-    todoStore.setSearchTerm(text)
-    todoStore.searchByTitle
-  }
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: () => <TextInput placeholder={SearchTitles.TODO} onChangeText={handleSearch} value={searchTerm} style={commonStyles.input} />,
-    })
-  }, [navigation, searchTerm])
 
   return (
     <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>

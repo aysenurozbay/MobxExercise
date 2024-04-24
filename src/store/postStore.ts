@@ -37,13 +37,15 @@ class Store {
     this.filteredPosts = this.posts.filter(item => item.title.toLowerCase().includes(this.searchTerm.toLowerCase()))
     this.activeFilter = 'bysearch'
     this.state = 'done'
-
     return this.filteredPosts
   }
   filterByUser = (id: number) => {
-    console.log(this)
-
     this.state = 'pending'
+    this.filteredPosts = this.posts.filter(item => item.userId === id)
+    console.log(this.filteredPosts)
+
+    this.activeFilter = 'byuser'
+    this.state = 'done'
   }
 
   resetFilter() {

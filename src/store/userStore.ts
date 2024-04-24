@@ -8,6 +8,7 @@ class Store {
   activeFilter: string = 'none'
   state: 'pending' | 'done' | 'error' = 'pending'
   searchTerm: string = ''
+  companyNames: string[] = []
 
   constructor() {
     makeAutoObservable(this)
@@ -39,6 +40,17 @@ class Store {
     this.activeFilter = 'bysearch'
     this.state = 'done'
     return this.filteredUsers
+  }
+
+  get getCompanyNames(): string[] {
+    this.users.forEach(item => {
+      const companyName = item.company.name
+      if (!this.companyNames.includes(companyName)) {
+        this.companyNames.push(companyName)
+      }
+    })
+
+    return this.companyNames
   }
 
   filterByCompany = (value: string) => {
@@ -74,6 +86,6 @@ class Store {
     this.state = 'done'
   }
 }
-const todoStore = new Store()
+const userStore = new Store()
 
-export default todoStore
+export default userStore

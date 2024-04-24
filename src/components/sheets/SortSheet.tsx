@@ -1,10 +1,11 @@
-import { Button, StyleSheet, Text, View } from 'react-native'
+import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import ActionSheet, { SheetManager, SheetProps } from 'react-native-actions-sheet'
 import { colors } from '../../utils/colors'
 import { marginConsts, paddingConsts, radiusConsts, textSize } from '../../utils/constValues'
 import BouncyCheckbox from 'react-native-bouncy-checkbox/build/dist/BouncyCheckbox'
 import { SheetTypes } from './sheets'
+import { commonStyles } from '../../assets/commonStyles'
 
 type OrderDataType = {
   id: 'oldest-to-newest' | 'newest-to-oldest'
@@ -27,7 +28,7 @@ const SortSheet = ({ payload, sheetId }: SheetProps<SheetTypes.SortSheet>) => {
       indicatorStyle={styles.indicatorStyle}
       backgroundInteractionEnabled={false}>
       <View>
-        <Text style={styles.title}>Sirala</Text>
+        <Text style={commonStyles.sheetTitle}>Filtrele</Text>
 
         {orders.map(order => (
           <BouncyCheckbox
@@ -67,12 +68,7 @@ const styles = StyleSheet.create({
     width: 100,
     backgroundColor: colors.background.secondary,
   },
-  title: {
-    paddingVertical: paddingConsts.small,
-    fontSize: textSize.large,
-    fontWeight: '500',
-    color: colors.text.purple,
-  },
+
   checkbox: {
     marginVertical: marginConsts.small,
   },

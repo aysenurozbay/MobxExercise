@@ -1,4 +1,4 @@
-import { Button, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Button, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect } from 'react'
 import ActionSheet, { SheetManager, SheetProps } from 'react-native-actions-sheet'
 import { colors } from '../../utils/colors'
@@ -12,33 +12,33 @@ import { UserDataType } from '../../utils/Types'
 import { fetchUsers } from '../../api/apiCalls'
 import userStore from '../../store/userStore'
 import { metrics } from '../../utils/metrics'
-
-type FilterTable = {
-  todo: ('completed' | 'notcompleted')[]
-  post: ['userId']
-  user: ['company']
-}
+import Loading from '../common/Loading'
 
 const FilterSheet = ({ payload, sheetId }: SheetProps<SheetTypes.FilterSheet>) => {
   const [checkboxState, setCheckboxState] = React.useState(false)
 
-  const filterTable: FilterTable = {
-    todo: ['completed', 'notcompleted'],
-    post: ['userId'],
-    user: ['company'],
-  }
+  const onPressBouncyCheckbox = (type: any, value?: string | number) => {
+    console.log(type)
 
-  const onPressBouncyCheckbox = (item: any) => {
     SheetManager.hide(sheetId, {
-      payload: item,
+      payload: { value, type },
     })
   }
 
   useEffect(() => {
     userStore.fetchUsers()
+    userStore.getCompanyNames
   }, [])
 
   const users: UserDataType[] = userStore.users
+
+  const comp = userStore.users.forEach(item => {
+    const companyName = item.company.name
+    if (!userStore.companyNames.includes(companyName)) {
+      userStore.companyNames.push(companyName)
+    }
+  })
+
   return (
     <ActionSheet
       id={sheetId}
@@ -46,44 +46,27 @@ const FilterSheet = ({ payload, sheetId }: SheetProps<SheetTypes.FilterSheet>) =
       useBottomSafeAreaPadding={true}
       indicatorStyle={commonStyles.indicatorStyle}
       backgroundInteractionEnabled={false}>
+      <Text style={commonStyles.sheetTitle}>Filtrele</Text>
+
       {payload ? (
         <ScrollView showsVerticalScrollIndicator={false}>
-          {userStore.state === 'pending' && <Text>Loading...</Text>}
-          <Button
-            title='Filtreleri Temizle'
+          <TouchableOpacity
             onPress={() => {
               SheetManager.hide(sheetId, {
-                payload: `true`,
+                payload: { type: 'reset' },
               })
-              todoStore.resetFilter()
             }}
-          />
-          {filterTable[payload.type]?.map(item => (
-            <BouncyCheckbox
-              size={25}
-              key={item}
-              unFillColor='#FFFFFF'
-              text={item}
-              iconStyle={{ borderColor: colors.text.purple, borderRadius: radiusConsts.small }}
-              fillColor={colors.text.purple}
-              innerIconStyle={{ borderWidth: 1, borderRadius: radiusConsts.small, borderColor: colors.border.active }}
-              textStyle={FontStyles.filterText}
-              style={commonStyles.margin8}
-              isChecked={checkboxState}
-              onPress={() => {
-                console.log(checkboxState)
-                onPressBouncyCheckbox(item)
-              }}
-            />
-          ))}
-          <View style={styles.userFilterContainer}>
-            <Text style={styles.userFilterLabel}> Kullaniciya Gore Filtrele</Text>
-            {users?.map(user => (
+            style={commonStyles.resetFilterText}>
+            <Text>Filtreleri Temizle</Text>
+          </TouchableOpacity>
+
+          {payload.type === 'todo' && (
+            <>
               <BouncyCheckbox
                 size={25}
-                key={user.id}
+                key={'todoStatus-complete'}
                 unFillColor='#FFFFFF'
-                text={user.name}
+                text={'Tamamlanmis Gorevler'}
                 iconStyle={{ borderColor: colors.text.purple, borderRadius: radiusConsts.huge }}
                 fillColor={colors.text.purple}
                 innerIconStyle={{ borderWidth: 1, borderRadius: radiusConsts.huge, borderColor: colors.border.active }}
@@ -91,15 +74,81 @@ const FilterSheet = ({ payload, sheetId }: SheetProps<SheetTypes.FilterSheet>) =
                 style={commonStyles.margin8}
                 isChecked={checkboxState}
                 onPress={() => {
-                  // console.log(checkboxState)
-                  onPressBouncyCheckbox(user.id)
+                  onPressBouncyCheckbox('completed')
                 }}
               />
-            ))}
-          </View>
+              <BouncyCheckbox
+                size={25}
+                key={'todoStatus-notComplete'}
+                unFillColor='#FFFFFF'
+                text={'Tamamlanmis Gorevler'}
+                iconStyle={{ borderColor: colors.text.purple, borderRadius: radiusConsts.huge }}
+                fillColor={colors.text.purple}
+                innerIconStyle={{ borderWidth: 1, borderRadius: radiusConsts.huge, borderColor: colors.border.active }}
+                textStyle={FontStyles.filterText}
+                style={commonStyles.margin8}
+                isChecked={checkboxState}
+                onPress={() => {
+                  onPressBouncyCheckbox('notcompleted')
+                }}
+              />
+            </>
+          )}
+          {payload.type === 'user' && (
+            <>
+              {userStore.state === 'pending' && <Loading />}
+              {userStore.state === 'done' && (
+                <View>
+                  {userStore.companyNames?.map(company => (
+                    <BouncyCheckbox
+                      size={25}
+                      key={company}
+                      unFillColor='#FFFFFF'
+                      text={company}
+                      iconStyle={{ borderColor: colors.text.purple, borderRadius: radiusConsts.huge }}
+                      fillColor={colors.text.purple}
+                      innerIconStyle={{ borderWidth: 1, borderRadius: radiusConsts.huge, borderColor: colors.border.active }}
+                      textStyle={FontStyles.filterText}
+                      style={commonStyles.margin8}
+                      isChecked={checkboxState}
+                      onPress={() => {
+                        onPressBouncyCheckbox('company', company)
+                      }}
+                    />
+                  ))}
+                </View>
+              )}
+            </>
+          )}
+          {payload.type === 'post' && (
+            <>
+              {userStore.state === 'pending' && <Loading />}
+              {userStore.state === 'done' && (
+                <View>
+                  {users?.map(user => (
+                    <BouncyCheckbox
+                      size={25}
+                      key={user.id}
+                      unFillColor='#FFFFFF'
+                      text={user.name}
+                      iconStyle={{ borderColor: colors.text.purple, borderRadius: radiusConsts.huge }}
+                      fillColor={colors.text.purple}
+                      innerIconStyle={{ borderWidth: 1, borderRadius: radiusConsts.huge, borderColor: colors.border.active }}
+                      textStyle={FontStyles.filterText}
+                      style={commonStyles.margin8}
+                      isChecked={checkboxState}
+                      onPress={() => {
+                        onPressBouncyCheckbox('user', user.id)
+                      }}
+                    />
+                  ))}
+                </View>
+              )}
+            </>
+          )}
         </ScrollView>
       ) : (
-        <Text> Bir sorun olustu </Text>
+        <Text> Bir sorun olustu !</Text>
       )}
     </ActionSheet>
   )
