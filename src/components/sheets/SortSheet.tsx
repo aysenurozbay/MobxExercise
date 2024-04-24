@@ -1,11 +1,11 @@
-import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
+import { StyleSheet, Text, View } from 'react-native'
 import ActionSheet, { SheetManager, SheetProps } from 'react-native-actions-sheet'
+import BouncyCheckbox from 'react-native-bouncy-checkbox/build/dist/BouncyCheckbox'
+import { commonStyles } from '../../assets/commonStyles'
 import { colors } from '../../utils/colors'
 import { marginConsts, paddingConsts, radiusConsts, textSize } from '../../utils/constValues'
-import BouncyCheckbox from 'react-native-bouncy-checkbox/build/dist/BouncyCheckbox'
 import { SheetTypes } from './sheets'
-import { commonStyles } from '../../assets/commonStyles'
 
 type OrderDataType = {
   id: 'oldest-to-newest' | 'newest-to-oldest'

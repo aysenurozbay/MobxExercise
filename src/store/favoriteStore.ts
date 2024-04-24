@@ -1,6 +1,8 @@
-import { makeAutoObservable } from 'mobx'
-import { PostDataType, UserDataType } from '../utils/Types'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+
+import { makeAutoObservable } from 'mobx'
+
+import { UserDataType } from '../utils/Types'
 
 interface UserData {
   user: UserDataType
@@ -24,7 +26,6 @@ class FavoriteStore {
         this.users.splice(index, 1)
       }
     } else {
-      // Eğer post storeda yoksa, storeda ekleyerek beğenme durumunu true yap
       const newPost: UserData = { user: item, isLiked: true }
       this.users.push(newPost)
     }
@@ -40,10 +41,7 @@ class FavoriteStore {
     try {
       const favoritesJSON = JSON.stringify(this.users)
       await AsyncStorage.setItem(this.STORAGE_KEY, favoritesJSON)
-      console.log('Favorites saved successfully')
-    } catch (error) {
-      console.error('Error saving favorites:', error)
-    }
+    } catch (error) {}
   }
 
   async loadFavorites() {
@@ -52,10 +50,7 @@ class FavoriteStore {
       if (favoritesJSON) {
         this.users = JSON.parse(favoritesJSON)
       }
-      console.log('Favorites loaded successfully')
-    } catch (error) {
-      console.error('Error loading favorites:', error)
-    }
+    } catch (error) {}
   }
 }
 const favoriteStore = new FavoriteStore()

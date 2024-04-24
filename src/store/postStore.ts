@@ -1,12 +1,13 @@
 import { runInAction, makeAutoObservable, observable, action, computed, makeObservable } from 'mobx'
-import { PostDataType } from '../utils/Types'
+import { PostDataType, StoreStateTypes } from '../utils/Types'
 import { fetchPosts, fetchTodos } from '../api/apiCalls'
+import { storeStates } from '../utils/constValues'
 
 class Store {
   posts: PostDataType[] = []
   filteredPosts: PostDataType[] = []
   activeFilter: string = 'none'
-  state: 'pending' | 'done' | 'error' = 'pending'
+  state: StoreStateTypes = storeStates.PENDING
   searchTerm: string = ''
 
   constructor() {
@@ -15,7 +16,7 @@ class Store {
 
   async fetchPosts() {
     this.posts = []
-    this.state = 'pending'
+    this.state = storeStates.PENDING
     try {
       const _posts = await fetchPosts()
       runInAction(() => {
@@ -33,30 +34,28 @@ class Store {
     this.searchTerm = term
   }
   get searchByTitle(): PostDataType[] {
-    this.state = 'pending'
+    this.state = storeStates.PENDING
     this.filteredPosts = this.posts.filter(item => item.title.toLowerCase().includes(this.searchTerm.toLowerCase()))
     this.activeFilter = 'bysearch'
     this.state = 'done'
     return this.filteredPosts
   }
   filterByUser = (id: number) => {
-    this.state = 'pending'
+    this.state = storeStates.PENDING
     this.filteredPosts = this.posts.filter(item => item.userId === id)
-    console.log(this.filteredPosts)
-
     this.activeFilter = 'byuser'
     this.state = 'done'
   }
 
   resetFilter() {
-    this.state = 'pending'
+    this.state = storeStates.PENDING
     this.filteredPosts = []
     this.activeFilter = 'none'
     this.state = 'done'
   }
 
   sortById(order: 'oldest-to-newest' | 'newest-to-oldest') {
-    this.state = 'pending'
+    this.state = storeStates.PENDING
     const orderPosts = this.activeFilter === 'none' ? this.posts : this.filteredPosts
     this.filteredPosts = orderPosts.slice().sort((a, b) => {
       if (order === 'oldest-to-newest') {

@@ -1,17 +1,17 @@
-import { Button, FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { API_URL, paddingConsts, textSize } from '../../utils/constValues'
-import { colors } from '../../utils/colors'
-import CommentComponent from '../../components/comment/CommentComponent'
-import { CommentDataType, PostDataType } from '../../utils/Types'
-import axios from 'axios'
-import { PostParams } from '../../navigation/NavigationTypes'
 import { RouteProp, useNavigation } from '@react-navigation/native'
-import ArrowIcon from '../../assets/icons/ArrowIcon'
 import { StackNavigationProp } from '@react-navigation/stack'
-import LikeComponent from '../../components/like/LikeComponent'
 import { observer } from 'mobx-react-lite'
-import favoriteStore from '../../store/favoriteStore'
+import React, { useEffect, useState } from 'react'
+import { FlatList, StyleSheet, Text, View } from 'react-native'
+
+import { fetchComments } from '../../api/apiCalls'
+
+import CommentComponent from '../../components/comment/CommentComponent'
+import { PostParams } from '../../navigation/NavigationTypes'
+
+import { CommentDataType, PostDataType } from '../../utils/Types'
+import { colors } from '../../utils/colors'
+import { paddingConsts, textSize } from '../../utils/constValues'
 
 interface IPostDetailScreenProps {
   route: RouteProp<PostParams, 'PostDetails'>
@@ -36,28 +36,13 @@ const PostDetailScreen = ({ route }: IPostDetailScreenProps) => {
   const navigation: StackNavigationProp<PostParams> = useNavigation()
 
   const [comments, setComments] = useState<CommentDataType[]>([])
-  const [page, setPage] = useState<number>(1)
   const [loading, setLoading] = useState<boolean>(false)
 
-  const fetchComments = async () => {
-    setLoading(true)
-    try {
-      const response = await axios.get(`${API_URL}/posts/${post.id}/comments`, {
-        params: {
-          limit: 10, // Her istekte alınacak maksimum öğe sayısı
-          offset: (page - 1) * 10, // Sayfa başına öğe sayısı * sayfa numarası
-        },
-      })
-      setComments(response.data)
-    } catch (error) {
-      console.error('Error fetching posts:', error)
-    }
-    setLoading(false)
-  }
-
   useEffect(() => {
-    fetchComments()
-  }, [page])
+    fetchComments(post.id)
+      .then(commentsData => setComments(commentsData))
+      .catch(error => {})
+  }, [post.id])
 
   useEffect(() => {
     navigation.getParent()?.setOptions({

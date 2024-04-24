@@ -1,13 +1,12 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { DrawerHeaderProps } from '@react-navigation/drawer'
-import DrawerIcon from '../../assets/icons/DrawerIcon'
-import UserIcon from '../../assets/icons/UserIcon'
-import { colors } from '../../utils/colors'
-import { radiusConsts, paddingConsts, textSize } from '../../utils/constValues'
+import { StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { StackHeaderProps } from '@react-navigation/stack'
+
 import ArrowIcon from '../../assets/icons/ArrowIcon'
 import DotsIcon from '../../assets/icons/DotsIcon'
-import { StackHeaderProps } from '@react-navigation/stack'
+
+import { colors } from '../../utils/colors'
+import { paddingConsts, radiusConsts, textSize } from '../../utils/constValues'
 
 interface PostScreenHeader extends StackHeaderProps {}
 

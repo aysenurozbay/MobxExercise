@@ -1,3 +1,5 @@
+import { storeStates } from './constValues'
+
 export type DataItem = {
   id: number
 }
@@ -43,3 +45,5 @@ export interface UserDataType extends DataItem {
     bs: string
   }
 }
+
+export type StoreStateTypes = (typeof storeStates)[keyof typeof storeStates]

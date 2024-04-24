@@ -1,19 +1,22 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { observer } from 'mobx-react-lite'
-import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native'
-import PostComponent from '../../components/post/PostComponent'
-import FilterComponent from '../../components/common/FilterComponent'
-import { SearchTitles, paddingConsts } from '../../utils/constValues'
-import { SheetManager } from 'react-native-actions-sheet'
-import { SheetTypes } from '../../components/sheets/sheets'
-import { PostParams } from '../../navigation/NavigationTypes'
-import { RouteProp, useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
-import { colors } from '../../utils/colors'
+import { observer } from 'mobx-react-lite'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
+import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
+import { SheetManager } from 'react-native-actions-sheet'
+
+import { PostParams } from '../../navigation/NavigationTypes'
+
 import { commonStyles } from '../../assets/commonStyles'
-import userStore from '../../store/userStore'
-import UserCard from '../../components/user/UserCard'
+
+import FilterComponent from '../../components/common/FilterComponent'
 import Loading from '../../components/common/Loading'
+import { SheetTypes } from '../../components/sheets/sheets'
+import UserCard from '../../components/user/UserCard'
+
+import userStore from '../../store/userStore'
+
+import { SearchTitles, paddingConsts, storeStates } from '../../utils/constValues'
 
 interface IUsersScreennProps {}
 
@@ -72,7 +75,7 @@ const UsersScreen = observer(({}: IUsersScreennProps) => {
   return (
     <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
       <FilterComponent filterOnPress={filterOnPress} sortOnPress={sortOnPress} />
-      {userStore.state === 'pending' && <Loading />}
+      {userStore.state === storeStates.PENDING && <Loading />}
       {userStore.state === 'done' && (
         <View>
           {data?.map(user => (

@@ -1,25 +1,21 @@
-import { Button, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect } from 'react'
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import ActionSheet, { SheetManager, SheetProps } from 'react-native-actions-sheet'
-import { colors } from '../../utils/colors'
-import { marginConsts, paddingConsts, radiusConsts, textSize } from '../../utils/constValues'
 import BouncyCheckbox from 'react-native-bouncy-checkbox/build/dist/BouncyCheckbox'
 import { commonStyles } from '../../assets/commonStyles'
 import { FontStyles } from '../../assets/fonts'
-import todoStore from '../../store/todoStore'
-import { SheetTypes } from './sheets'
-import { UserDataType } from '../../utils/Types'
-import { fetchUsers } from '../../api/apiCalls'
 import userStore from '../../store/userStore'
+import { UserDataType } from '../../utils/Types'
+import { colors } from '../../utils/colors'
+import { paddingConsts, radiusConsts, storeStates } from '../../utils/constValues'
 import { metrics } from '../../utils/metrics'
 import Loading from '../common/Loading'
+import { SheetTypes } from './sheets'
 
 const FilterSheet = ({ payload, sheetId }: SheetProps<SheetTypes.FilterSheet>) => {
   const [checkboxState, setCheckboxState] = React.useState(false)
 
   const onPressBouncyCheckbox = (type: any, value?: string | number) => {
-    console.log(type)
-
     SheetManager.hide(sheetId, {
       payload: { value, type },
     })
@@ -65,7 +61,7 @@ const FilterSheet = ({ payload, sheetId }: SheetProps<SheetTypes.FilterSheet>) =
               <BouncyCheckbox
                 size={25}
                 key={'todoStatus-complete'}
-                unFillColor='#FFFFFF'
+                unFillColor={colors.white}
                 text={'Tamamlanmis Gorevler'}
                 iconStyle={{ borderColor: colors.text.purple, borderRadius: radiusConsts.huge }}
                 fillColor={colors.text.purple}
@@ -96,8 +92,8 @@ const FilterSheet = ({ payload, sheetId }: SheetProps<SheetTypes.FilterSheet>) =
           )}
           {payload.type === 'user' && (
             <>
-              {userStore.state === 'pending' && <Loading />}
-              {userStore.state === 'done' && (
+              {userStore.state === storeStates.PENDING && <Loading />}
+              {userStore.state === storeStates.DONE && (
                 <View>
                   {userStore.companyNames?.map(company => (
                     <BouncyCheckbox
@@ -122,8 +118,8 @@ const FilterSheet = ({ payload, sheetId }: SheetProps<SheetTypes.FilterSheet>) =
           )}
           {payload.type === 'post' && (
             <>
-              {userStore.state === 'pending' && <Loading />}
-              {userStore.state === 'done' && (
+              {userStore.state === storeStates.PENDING && <Loading />}
+              {userStore.state === storeStates.DONE && (
                 <View>
                   {users?.map(user => (
                     <BouncyCheckbox

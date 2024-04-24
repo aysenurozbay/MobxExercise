@@ -1,12 +1,16 @@
-import { StyleSheet, Text, View } from 'react-native'
 import React, { useRef } from 'react'
-import ActionSheet, { ActionSheetRef, SheetProps, useSheetRef } from 'react-native-actions-sheet'
-import { paddingConsts, textSize } from '../../utils/constValues'
-import LocationIcon from '../../assets/icons/LocationIcon'
-import { colors } from '../../utils/colors'
+import { StyleSheet, Text, View } from 'react-native'
+import ActionSheet, { ActionSheetRef, SheetProps } from 'react-native-actions-sheet'
+
 import CompanyIcon from '../../assets/icons/CompanyIcon'
+import LocationIcon from '../../assets/icons/LocationIcon'
 import WorldIcon from '../../assets/icons/WorldIcon'
+import { colors } from '../../utils/colors'
+
+import { paddingConsts, textSize } from '../../utils/constValues'
+
 import LikeComponent from '../like/LikeComponent'
+
 import { SheetTypes } from './sheets'
 
 const UserSheet = ({ payload, sheetId }: SheetProps<SheetTypes.UserSheet>) => {

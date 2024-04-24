@@ -1,12 +1,13 @@
-import { runInAction, makeAutoObservable, observable, action, computed, makeObservable } from 'mobx'
-import { PostDataType, TodoDataType, UserDataType } from '../utils/Types'
-import { fetchPosts, fetchTodos, fetchUsers } from '../api/apiCalls'
+import { makeAutoObservable, runInAction } from 'mobx'
+import { fetchUsers } from '../api/apiCalls'
+import { StoreStateTypes, UserDataType } from '../utils/Types'
+import { storeStates } from '../utils/constValues'
 
 class Store {
   users: UserDataType[] = []
   filteredUsers: UserDataType[] = []
   activeFilter: string = 'none'
-  state: 'pending' | 'done' | 'error' = 'pending'
+  state: StoreStateTypes = storeStates.PENDING
   searchTerm: string = ''
   companyNames: string[] = []
 
@@ -16,7 +17,7 @@ class Store {
 
   async fetchUsers() {
     this.users = []
-    this.state = 'pending'
+    this.state = storeStates.PENDING
     try {
       const _users = await fetchUsers()
       runInAction(() => {
@@ -35,7 +36,7 @@ class Store {
   }
 
   get searchByName(): UserDataType[] {
-    this.state = 'pending'
+    this.state = storeStates.PENDING
     this.filteredUsers = this.users.filter(item => item.name.toLowerCase().includes(this.searchTerm.toLowerCase()))
     this.activeFilter = 'bysearch'
     this.state = 'done'
@@ -54,7 +55,7 @@ class Store {
   }
 
   filterByCompany = (value: string) => {
-    this.state = 'pending'
+    this.state = storeStates.PENDING
     if (this.activeFilter === 'none') {
       const _filteredUsers: UserDataType[] = [...this.users].filter((user: UserDataType) => user.company.name === value)
       this.filteredUsers = _filteredUsers
@@ -66,14 +67,14 @@ class Store {
     this.state = 'done'
   }
   resetFilter() {
-    this.state = 'pending'
+    this.state = storeStates.PENDING
     this.filteredUsers = []
     this.activeFilter = 'none'
     this.state = 'done'
   }
 
   sortById(order: 'oldest-to-newest' | 'newest-to-oldest') {
-    this.state = 'pending'
+    this.state = storeStates.PENDING
     const orderPosts = this.activeFilter === 'none' ? this.users : this.filteredUsers
     this.filteredUsers = orderPosts.slice().sort((a, b) => {
       if (order === 'oldest-to-newest') {

@@ -1,16 +1,15 @@
-import { Button, FlatList, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import favoriteStore from '../../store/favoriteStore'
+import { ScrollView, StyleSheet, View } from 'react-native'
 import { observer } from 'mobx-react-lite'
-import { paddingConsts, textSize } from '../../utils/constValues'
-import PostComponent from '../../components/post/PostComponent'
+
 import UserCard from '../../components/user/UserCard'
+
+import favoriteStore from '../../store/favoriteStore'
+
 import { colors } from '../../utils/colors'
+import { paddingConsts, textSize } from '../../utils/constValues'
 
 const FavoritesScreen = () => {
-  // const handleToggleLike = (postId: number) => {
-  //   favoriteStore.toggleFavorites(post)
-  // }
   return (
     <View style={styles.container}>
       <ScrollView>

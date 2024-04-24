@@ -11,8 +11,8 @@ import UsersScreen from '../screen/Users/UsersScreen'
 import Post from './Post.tsx'
 
 import { colors } from '../utils/colors'
-import { DEFAULT_SEARCH_TITLE, SearchTitles, SearchTitlesType, marginConsts, paddingConsts } from '../utils/constValues'
 import { metrics } from '../utils/metrics'
+import { DEFAULT_SEARCH_TITLE, SearchTitles, SearchTitlesType, marginConsts } from '../utils/constValues'
 
 import UserIcon from '../assets/icons/UserIcon.tsx'
 import DrawerIcon from '../assets/icons/DrawerIcon.tsx'
@@ -114,7 +114,6 @@ const Main = () => {
         component={UsersScreen}
         options={{
           drawerIcon: ({}) => <UserIcon fill={colors.text.purple} size={30} />,
-          title: 'Kullanicilar',
           headerTitle: prop => (
             <TextInput
               placeholder={SearchTitles['TODO'] || DEFAULT_SEARCH_TITLE}

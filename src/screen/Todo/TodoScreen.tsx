@@ -1,28 +1,17 @@
-// TodoScreen.tsx
-
-import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { observer } from 'mobx-react-lite'
-import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native'
-import PostComponent from '../../components/post/PostComponent'
-import FilterComponent from '../../components/common/FilterComponent'
-import { SearchTitles, paddingConsts } from '../../utils/constValues'
+import React, { useEffect } from 'react'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SheetManager } from 'react-native-actions-sheet'
-import todoStore from '../../store/todoStore'
-import TodoItemComponent from '../../components/todo/TodoItemComponent'
-import { SheetTypes } from '../../components/sheets/sheets'
-import { PostParams } from '../../navigation/NavigationTypes'
-import { RouteProp, useNavigation } from '@react-navigation/native'
-import { StackNavigationProp } from '@react-navigation/stack'
-import { TodoDataType } from '../../utils/Types'
-import { commonStyles } from '../../assets/commonStyles'
+import FilterComponent from '../../components/common/FilterComponent'
 import Loading from '../../components/common/Loading'
+import { SheetTypes } from '../../components/sheets/sheets'
+import TodoItemComponent from '../../components/todo/TodoItemComponent'
+import todoStore from '../../store/todoStore'
+import { paddingConsts, storeStates } from '../../utils/constValues'
 
 interface ITodoScreenProps {}
 
 const TodoScreen = observer(({}: ITodoScreenProps) => {
-  const navigation: StackNavigationProp<PostParams> = useNavigation()
-  const [searchTerm, setSearchTerm] = useState('')
-
   useEffect(() => {
     todoStore.fetchTodos()
   }, [])
@@ -58,7 +47,7 @@ const TodoScreen = observer(({}: ITodoScreenProps) => {
   return (
     <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
       <FilterComponent filterOnPress={filterOnPress} sortOnPress={sortOnPress} />
-      {todoStore.state === 'pending' && <Loading />}
+      {todoStore.state === storeStates.PENDING && <Loading />}
       {todoStore.state === 'done' && (
         <View>
           {data?.map(todo => (

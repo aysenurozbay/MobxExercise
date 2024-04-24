@@ -1,7 +1,7 @@
 import { SheetDefinition, registerSheet } from 'react-native-actions-sheet'
-import UserSheet from './UserSheet'
 import FilterSheet from './FilterSheet'
 import SortSheet from './SortSheet'
+import UserSheet from './UserSheet'
 import type { FilterSheetDefinitionType, SortSheetDefinitionType, UserSheetDefinitionType } from './sheetstypes'
 
 export enum SheetTypes {

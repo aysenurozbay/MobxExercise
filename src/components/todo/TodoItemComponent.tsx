@@ -1,9 +1,9 @@
-import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import { StyleSheet, View } from 'react-native'
 import BouncyCheckbox from 'react-native-bouncy-checkbox/build/dist/BouncyCheckbox'
-import { paddingConsts, radiusConsts, textSize } from '../../utils/constValues'
-import { colors } from '../../utils/colors'
 import { TodoDataType } from '../../utils/Types'
+import { colors } from '../../utils/colors'
+import { paddingConsts, radiusConsts, textSize } from '../../utils/constValues'
 
 interface ITodoItemComponentProps {
   todo: TodoDataType
@@ -27,9 +27,6 @@ const TodoItemComponent = ({ todo }: ITodoItemComponentProps) => {
           color: colors.text.primary,
         }}
         isChecked={checkboxState}
-        onPress={(isChecked: boolean) => {
-          // console.log(isChecked)
-        }}
       />
     </View>
   )

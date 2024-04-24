@@ -1,11 +1,13 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
-import HeartIcon from '../../assets/icons/HeartIcon'
-import { colors } from '../../utils/colors'
-import { PostDataType, UserDataType } from '../../utils/Types'
-import favoriteStore from '../../store/favoriteStore'
+import React from 'react'
+import { TouchableOpacity } from 'react-native'
 import { observer } from 'mobx-react-lite'
-import { SheetManager, useSheetRef } from 'react-native-actions-sheet'
+import { SheetManager } from 'react-native-actions-sheet'
+
+import HeartIcon from '../../assets/icons/HeartIcon'
+import favoriteStore from '../../store/favoriteStore'
+
+import { UserDataType } from '../../utils/Types'
+import { colors } from '../../utils/colors'
 
 interface ILikeComponentProps {
   user: UserDataType
@@ -29,5 +31,3 @@ const LikeComponent = ({ user }: ILikeComponentProps) => {
 }
 
 export default observer(LikeComponent)
-
-const styles = StyleSheet.create({})

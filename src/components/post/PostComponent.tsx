@@ -1,12 +1,15 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { colors } from '../../utils/colors'
-import { radiusConsts, paddingConsts, textSize, marginConsts } from '../../utils/constValues'
-import ArrowIcon from '../../assets/icons/BorderedArrowIcon'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
-import { DrawerStackParams, PostParams } from '../../navigation/NavigationTypes'
+
+import ArrowIcon from '../../assets/icons/BorderedArrowIcon'
+
+import { PostParams } from '../../navigation/NavigationTypes'
+
 import { PostDataType } from '../../utils/Types'
+import { colors } from '../../utils/colors'
+import { marginConsts, paddingConsts, radiusConsts, textSize } from '../../utils/constValues'
 
 interface IPostComponentProps {
   post: PostDataType

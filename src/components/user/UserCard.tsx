@@ -1,11 +1,13 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { SheetManager } from 'react-native-actions-sheet'
+
+import DotsIcon from '../../assets/icons/DotsIcon'
 import ImageIcon from '../../assets/icons/ImageIcon'
+
+import { UserDataType } from '../../utils/Types'
 import { colors } from '../../utils/colors'
 import { paddingConsts, radiusConsts, textSize } from '../../utils/constValues'
-import DotsIcon from '../../assets/icons/DotsIcon'
-import { UserDataType } from '../../utils/Types'
-import { SheetManager } from 'react-native-actions-sheet'
 
 interface IUserCardProps {
   user: UserDataType

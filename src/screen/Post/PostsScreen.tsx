@@ -1,24 +1,26 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { observer } from 'mobx-react-lite'
-import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native'
-import PostComponent from '../../components/post/PostComponent'
-import FilterComponent from '../../components/common/FilterComponent'
-import { SearchTitles, paddingConsts } from '../../utils/constValues'
-import { SheetManager } from 'react-native-actions-sheet'
-import { SheetTypes } from '../../components/sheets/sheets'
-import { PostParams } from '../../navigation/NavigationTypes'
-import { RouteProp, useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
-import { colors } from '../../utils/colors'
-import { commonStyles } from '../../assets/commonStyles'
-import postStore from '../../store/postStore'
+import React, { useEffect } from 'react'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
+
+import { observer } from 'mobx-react-lite'
+import { SheetManager } from 'react-native-actions-sheet'
+
+import { PostParams } from '../../navigation/NavigationTypes'
+
+import FilterComponent from '../../components/common/FilterComponent'
 import Loading from '../../components/common/Loading'
+import PostComponent from '../../components/post/PostComponent'
+
+import { SheetTypes } from '../../components/sheets/sheets'
+import { paddingConsts, storeStates } from '../../utils/constValues'
+
+import postStore from '../../store/postStore'
 
 interface IPostsScreenProps {}
 
 const PostsScreen = observer(({}: IPostsScreenProps) => {
   const navigation: StackNavigationProp<PostParams> = useNavigation()
-  const [searchTerm, setSearchTerm] = useState('')
 
   useEffect(() => {
     postStore.fetchPosts()
@@ -59,7 +61,7 @@ const PostsScreen = observer(({}: IPostsScreenProps) => {
   return (
     <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
       <FilterComponent filterOnPress={filterOnPress} sortOnPress={sortOnPress} />
-      {postStore.state === 'pending' && <Loading />}
+      {postStore.state === storeStates.PENDING && <Loading />}
       {postStore.state === 'done' && (
         <View>
           {data?.map(post => (

@@ -1,9 +1,11 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
+import { StyleSheet, View } from 'react-native'
 import { DrawerContentComponentProps, DrawerItemList } from '@react-navigation/drawer'
-import Header from './Header'
-import { metrics } from '../../utils/metrics'
+
 import { paddingConsts } from '../../utils/constValues'
+import { metrics } from '../../utils/metrics'
+
+import Header from './Header'
 
 const CustomDrawer = (props: DrawerContentComponentProps) => {
   return (

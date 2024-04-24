@@ -33,4 +33,5 @@ export const colors = {
   },
   blue: '#2563EB',
   pink: '#C81875',
+  white: '#FFFFFF',
 }

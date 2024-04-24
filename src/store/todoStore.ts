@@ -1,12 +1,13 @@
-import { runInAction, makeAutoObservable, observable, action, computed, makeObservable } from 'mobx'
-import { PostDataType, TodoDataType, UserDataType } from '../utils/Types'
-import { fetchPosts, fetchTodos } from '../api/apiCalls'
+import { makeAutoObservable, runInAction } from 'mobx'
+import { fetchTodos } from '../api/apiCalls'
+import { StoreStateTypes, TodoDataType } from '../utils/Types'
+import { storeStates } from '../utils/constValues'
 
 class Store {
   todos: TodoDataType[] = []
   filteredTodos: TodoDataType[] = []
   activeFilter: string = 'none'
-  state: 'pending' | 'done' | 'error' = 'pending'
+  state: StoreStateTypes = storeStates.PENDING
   searchTerm: string = ''
 
   constructor() {
@@ -15,7 +16,7 @@ class Store {
 
   async fetchTodos() {
     this.todos = []
-    this.state = 'pending'
+    this.state = storeStates.PENDING
     try {
       const projects = await fetchTodos()
       runInAction(() => {
@@ -33,7 +34,7 @@ class Store {
     this.searchTerm = term
   }
   get searchByTitle(): TodoDataType[] {
-    this.state = 'pending'
+    this.state = storeStates.PENDING
     this.filteredTodos = this.todos.filter(item => item.title.toLowerCase().includes(this.searchTerm.toLowerCase()))
     this.activeFilter = 'bysearch'
     this.state = 'done'
@@ -41,7 +42,7 @@ class Store {
     return this.filteredTodos
   }
   filterByState = (state: boolean) => {
-    this.state = 'pending'
+    this.state = storeStates.PENDING
     if (this.activeFilter === 'none') {
       const _filteredTodos: TodoDataType[] = [...this.todos].filter((todo: TodoDataType) => todo.completed === state)
       this.filteredTodos = _filteredTodos
@@ -54,9 +55,7 @@ class Store {
   }
 
   filterWithState = (isCompleted: boolean) => {
-    console.log(`isCompleted`, isCompleted)
-
-    this.state = 'pending'
+    this.state = storeStates.PENDING
     if (this.activeFilter === 'none') {
       const _filteredTodos: TodoDataType[] = [...this.todos].filter((todo: TodoDataType) => todo.completed === isCompleted)
       this.filteredTodos = _filteredTodos
@@ -68,20 +67,18 @@ class Store {
     this.state = 'done'
   }
   filterByUserId = (id: number) => {
-    console.log(this)
-
-    this.state = 'pending'
+    this.state = storeStates.PENDING
   }
 
   resetFilter() {
-    this.state = 'pending'
+    this.state = storeStates.PENDING
     this.filteredTodos = []
     this.activeFilter = 'none'
     this.state = 'done'
   }
 
   sortById(order: 'oldest-to-newest' | 'newest-to-oldest') {
-    this.state = 'pending'
+    this.state = storeStates.PENDING
     const orderPosts = this.activeFilter === 'none' ? this.todos : this.filteredTodos
     this.filteredTodos = orderPosts.slice().sort((a, b) => {
       if (order === 'oldest-to-newest') {

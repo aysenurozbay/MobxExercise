@@ -1,9 +1,11 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
+
+import FilterIcon from '../../assets/icons/FilterIcon'
+import SortIcon from '../../assets/icons/SortIcon'
+
 import { colors } from '../../utils/colors'
 import { marginConsts, paddingConsts, radiusConsts } from '../../utils/constValues'
-import SortIcon from '../../assets/icons/SortIcon'
-import FilterIcon from '../../assets/icons/FilterIcon'
 
 interface IFilterComponentProps {
   filterOnPress: () => void

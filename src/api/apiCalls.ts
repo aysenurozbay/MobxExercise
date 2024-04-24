@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { PostDataType, TodoDataType, UserDataType } from '../utils/Types'
+
+import { CommentDataType, PostDataType, TodoDataType, UserDataType } from '../utils/Types'
 import { API_URL } from '../utils/constValues'
 
 export const fetchPosts = async () => {
@@ -23,6 +24,14 @@ export const fetchUsers = async () => {
 export const fetchTodos = async (): Promise<TodoDataType[]> => {
   try {
     const response = await axios.get<TodoDataType[]>(`${API_URL}/todos`, {})
+    return response.data
+  } catch (error) {
+    return []
+  }
+}
+export const fetchComments = async (postId: number): Promise<CommentDataType[]> => {
+  try {
+    const response = await axios.get(`${API_URL}/posts/${postId}/comments`, {})
     return response.data
   } catch (error) {
     return []

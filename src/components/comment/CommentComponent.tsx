@@ -1,9 +1,9 @@
+import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
-import { marginConsts, paddingConsts, radiusConsts, textSize } from '../../utils/constValues'
-import { colors } from '../../utils/colors'
-import UserIcon from '../../assets/icons/UserIcon'
+
 import { CommentDataType } from '../../utils/Types'
+import { colors } from '../../utils/colors'
+import { marginConsts, paddingConsts, radiusConsts, textSize } from '../../utils/constValues'
 
 interface ICommentComponentProps {
   comment: CommentDataType
@@ -15,7 +15,7 @@ const CommentComponent = ({ comment, userId }: ICommentComponentProps) => {
     <View style={styles.container}>
       {/* UserIcon fill={colors.text.primary} size={50} /> */}
       <View>
-        <Text style={styles.username}>{comment.name}</Text>
+        <Text style={styles.username}>{comment.name}</Text>``
         <Text style={styles.comment} numberOfLines={5}>
           {comment.body}
         </Text>
